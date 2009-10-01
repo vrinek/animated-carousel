@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>carousel test</title>
+  <script src="scripts/prototype.js" type="text/javascript"></script>
+  <script type="text/javascript" charset="utf-8">
+    function moveCarousel(position){
+      var carouselSeats = $$('#carousel .seat');
+      
+      // find the new seats
+      var newRight = $$('#carousel .seat.'+position)[0].next('.seat');
+      var newLeft = $$('#carousel .seat.'+position)[0].previous('.seat');
+      var newCenter = $$('#carousel .seat.'+position)[0];
+      
+      // loop control
+      if(newLeft == null){
+        newLeft = carouselSeats.last();
+      }else if(newRight == null){
+        newRight = carouselSeats[0];
+      };
+      
+      // remove the old ones
+      $$('#carousel .seat.left')[0].removeClassName('left');
+      $$('#carousel .seat.center')[0].removeClassName('center');
+      $$('#carousel .seat.right')[0].removeClassName('right');
+      
+      // add the new ones
+      newLeft.addClassName('left');
+      newCenter.addClassName('center');
+      newRight.addClassName('right');
+    };
+  </script>
+  <style type="text/css">
+    #carousel {
+      width: 600px;
+      overflow: hidden;
+      height: 300px;
+      position: relative;
+      background-color: silver;
+      margin: 120px auto 0;
+    }
+  
+    #carousel .seat {
+      display: none;
+      position: absolute;
+      bottom: 15px;
+      background-color: white;
+      overflow: hidden;
+    }
+    
+    #carousel .seat.left,
+    #carousel .seat.right,
+    #carousel .seat.center {
+      display: block;
+    }
+
+    #carousel .seat.center {
+      height: 240px;
+      width: 160px;
+      left: 50%;
+      margin-left: -80px;
+    }
+    
+    #carousel .seat.right,
+    #carousel .seat.left {
+      height: 180px;
+      width: 120px;
+    }
+
+    #carousel .seat.left {
+      left: 10%;
+    }
+
+    #carousel .seat.right {
+      right: 10%;
+    }
+
+    #carousel .seat img {
+      width: 100%;
+    }
+
+    #carousel a.button {
+      color: gray;
+      padding: 4px;
+      position: absolute;
+      text-decoration: none;
+      bottom: 45%;
+      font-size: 24px;
+    }
+
+    #carousel a.button.left {
+      left: 0;
+    }
+
+    #carousel a.button.right {
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="carousel">
+    <div class="seat"><img src="images/24n_burnout_wideweb__430x316.jpg.jpeg" /></div>
+    <div class="seat"><img src="images/640nocal.jpg.jpeg" /></div>
+    <div class="seat"><img src="images/Delorean5.jpg.jpeg" /></div>
+    <div class="seat"><img src="images/Sony_Playstation%203%2860%20GB%29.jpg" /></div>
+    <div class="seat"><img src="images/burnout-3-takedown-c.jpg.jpeg" /></div>
+    <div class="seat"><img src="images/delorean-profile-512.jpg.jpeg" /></div>
+    <div class="seat"><img src="images/disgaea3announced200707bh6.jpg.jpeg" /></div>
+    <div class="seat"><img src="images/lego-playing-wii-01.jpg" /></div>
+    <div class="seat"><img src="images/psp_burnout_legends.jpg.jpeg" /></div>
+    <div class="seat"><img src="images/wii_crystal_cooler.jpg" /></div>
+    <div class="seat"><img src="images/wii_darth.jpg" /></div>
+    <a href="#" onclick="moveCarousel('left'); return false;" class="left button">&lt;</a>
+    <a href="#" onclick="moveCarousel('right'); return false;" class="right button">&gt;</a>
+  </div>
+  
+  <script type="text/javascript" charset="utf-8">
+    var visible_seats = 3;
+    $$('#carousel .seat')[0].addClassName('left');
+    $$('#carousel .seat')[1].addClassName('center');
+    $$('#carousel .seat')[2].addClassName('right');
+  </script>
+</body>
+</html>
