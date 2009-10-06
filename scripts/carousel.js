@@ -91,11 +91,7 @@ function moveSeat(seat, position){
             break;
     };
     
-    if(position == 'center' && off){
-        alert('off should be false');
-    };
-
-    var offSize = 'height: 90px; width: 60px; margin-left: -30px;';
+    var offSize = 'width: 60px; margin-left: -30px;';
     
     var offPos = 'left:';
     var onPos = 'left:';
@@ -110,17 +106,12 @@ function moveSeat(seat, position){
     if(currentCarouselPosition == null){
         // position and scale down
         if(position == 'center'){
-            seat.setStyle('height: 120px; width: 80px; left: 50%; margin-left: -40px;');
+            seat.setStyle('width: 80px; left: 50%; margin-left: -40px;');
         }else{
-            // alert('setting style of ' + position + ' to ' + offSize + onPos);
             seat.setStyle(offSize + onPos);
         };
     }else{
         if(!seat.visible()){
-            if(position == 'center'){
-                alert('center should already be visible');
-            };
-            
             seat.setStyle(offSize + offPos);
         };
     };
@@ -128,7 +119,6 @@ function moveSeat(seat, position){
     if(position == 'center'){
         css += 'left: 50%;';
         css += 'margin-left: -80px;';
-        css += 'height: 240px;';
         css += 'width: 160px;';
     }else{
         css += 'left:';
@@ -139,7 +129,6 @@ function moveSeat(seat, position){
         }
         
         css += 'margin-left: -60px;'
-        css += 'height: 180px;';
         css += 'width: 120px;';
     };
     
