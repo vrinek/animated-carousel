@@ -8,7 +8,12 @@ function moveCarousel(position){
 
 function repositionCarousel(position){
     if(currentCarouselPosition != null){
-        // remove the old ones
+        // remove the old seats
+        currentSeat('left').removeClassName('left');
+        currentSeat('center').removeClassName('center');
+        currentSeat('right').removeClassName('right');
+
+        // move the old one off the carousel
         moveSeat(currentSeat(otherPos(position)), 'off ' + otherPos(position));
     };
 
@@ -21,9 +26,9 @@ function repositionCarousel(position){
 function otherPos(position){
     switch(position){
         case 'left':
-        return 'right';
+            return 'right';
         case 'right':
-        return 'left';
+            return 'left';
     }
 };
 
@@ -32,31 +37,31 @@ function findSeat(position, new_or_current){
 
     switch(new_or_current){
         case 'new':
-        var carouselPosition = newCarouselPosition;
-        break;
+            var carouselPosition = newCarouselPosition;
+            break;
         case 'current':
-        var carouselPosition = currentCarouselPosition;
-        break;
+            var carouselPosition = currentCarouselPosition;
+            break;
     };
 
     switch(position){
         case 'left':
-        if(carouselPosition == 0){
-            pos = carouselSeats.length - 1;
-        }else{
-            pos = carouselPosition - 1;
-        };
-        break;
+            if(carouselPosition == 0){
+                pos = carouselSeats.length - 1;
+            }else{
+                pos = carouselPosition - 1;
+            };
+            break;
         case 'center':
-        pos = carouselPosition;
-        break;
+            pos = carouselPosition;
+            break;
         case 'right':
-        if(carouselPosition == (carouselSeats.length - 1)){
-            pos = 0;
-        }else{
-            pos = carouselPosition + 1;
-        };
-        break;
+            if(carouselPosition == (carouselSeats.length - 1)){
+                pos = 0;
+            }else{
+                pos = carouselPosition + 1;
+            };
+            break;
     };
 
     return carouselSeats[pos];
@@ -71,39 +76,86 @@ function currentSeat(position){
 };
 
 function moveSeat(seat, position){
-    // { x: 0, y: 0, mode: 'absolute' }
-    var css = new Hash();
-    css.set('bottom', '15px');
+    var css = 'bottom:15px;';
+    var off = true;
 
+    switch(position){
+        case 'off left':
+            position = 'left';
+            break;
+        case 'off right':
+            position = 'right'
+            break;
+        default:
+            off = false
+            break;
+    };
+    
+    if(position == 'center' && off){
+        alert('off should be false');
+    };
+
+    var offSize = 'height: 90px; width: 60px; margin-left: -30px;';
+    
+    var offPos = 'left:';
+    var onPos = 'left:';
+    if(position == 'left'){
+        offPos += '-20%;';
+        onPos += '20%;';
+    }else{
+        offPos += '120%;';
+        onPos += '80%;';
+    };
+    
     if(currentCarouselPosition == null){
         // position and scale down
         if(position == 'center'){
-            seat.setStyle('height: 120px; width: 80px; left: 50%; margin-left: -40px');
+            seat.setStyle('height: 120px; width: 80px; left: 50%; margin-left: -40px;');
         }else{
-            seat.setStyle('height: 90px; width: 60px; ' + position + ': 15%');
+            // alert('setting style of ' + position + ' to ' + offSize + onPos);
+            seat.setStyle(offSize + onPos);
+        };
+    }else{
+        if(!seat.visible()){
+            if(position == 'center'){
+                alert('center should already be visible');
+            };
+            
+            seat.setStyle(offSize + offPos);
         };
     };
 
     if(position == 'center'){
-        css.set('left', '50%');
-        css.set('margin-left', '-80px');
-        css.set('height', '240px');
-        css.set('width', '160px');
+        css += 'left: 50%;';
+        css += 'margin-left: -80px;';
+        css += 'height: 240px;';
+        css += 'width: 160px;';
     }else{
-        css.set(position, '10%');
-        css.set('margin-left', 0);
-        css.set('height', '180px');
-        css.set('width', '120px');
+        css += 'left:';
+        if(position == 'left'){
+            css += '20%;';
+        }else{
+            css += '80%;';
+        }
+        
+        css += 'margin-left: -60px;'
+        css += 'height: 180px;';
+        css += 'width: 120px;';
     };
-
-    new Effect.Morph(seat, {
-        style: css,
-        duration: 0.5
-    });
-
-    seat.appear();
-
-    seat.addClassName(position);
+    
+    if(off){
+        seat.morph(offSize + offPos);
+        seat.fade();
+    }else{
+        seat.morph(css);
+        if(!seat.visible()){
+            seat.appear();
+        };
+    };
+    
+    if(!off){
+        seat.addClassName(position);
+    };
 };
 
 function initCarousel(){
@@ -111,5 +163,5 @@ function initCarousel(){
     currentCarouselPosition = null;
     newCarouselPosition = 1;
 
-    repositionCarousel(1);
+    repositionCarousel();
 };
