@@ -1,0 +1,36 @@
+#carousel {
+    width: 600px;
+    overflow: hidden;
+    height: 300px;
+    position: relative;
+    background-color: silver;
+    margin: 120px auto 0;
+}
+
+#carousel .seat {
+    position: absolute;
+    bottom: 15px;
+    background-color: white;
+    overflow: hidden;
+}
+
+#carousel .seat img {
+    width: 100%;
+}
+
+#carousel a.button {
+    color: gray;
+    padding: 4px;
+    position: absolute;
+    text-decoration: none;
+    bottom: 45%;
+    font-size: 24px;
+}
+
+#carousel a.button.left {
+    left: 0;
+}
+
+#carousel a.button.right {
+    right: 0;
+}
